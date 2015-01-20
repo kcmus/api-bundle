@@ -23,7 +23,7 @@ class Api
     private $serializer;
     private $doctrine;
 
-    public function __construct(RequestStack $request, SecurityContextInterface $security, $apiDoc, $serializer, $doctrine)
+    public function __construct(RequestStack $request, SecurityContextInterface $security, $apiDoc, $serializer, $doctrine = null)
     {
         $this->apiDoc = $apiDoc;
         $this->request = $request;
@@ -534,7 +534,12 @@ class Api
      */
     public function getMetadata($mixed)
     {
-        return $this->getDoctrine()->getManager()->getClassMetadata((is_object($mixed)?get_class($mixed):$mixed));
+        if ($this->doctrine !== null)
+        {
+            return $this->getDoctrine()->getManager()->getClassMetadata((is_object($mixed) ? get_class($mixed) : $mixed));
+        }
+
+        return null;
     }
 
     /**
