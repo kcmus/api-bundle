@@ -3,37 +3,37 @@ services:
         class: RJP\ApiBundle\Services\Api
         arguments: [@request_stack, @security.context, @nelmio_api_doc.extractor.api_doc_extractor, @jms_serializer]
 
-    api.user_provider:
-        class: RJP\ApiBundle\Security\ApiKeyUserProvider
-        arguments: ["@doctrine.orm.entity_manager"]
-
-    api.key_authenticator:
-        class:     RJP\ApiBundle\Security\ApiKeyAuthenticator
-        arguments: ["@api.user_provider"]
-
-    api.dispatch.controller_listener:
-        class: RJP\ApiBundle\EventListener\EventListener
-        arguments: [@service_container, @rjp.api]
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-
-    api.dispatch.request_listener:
-        class: RJP\ApiBundle\EventListener\RequestListener
-        arguments: [ @service_container ]
-        tags:
-          - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 255 }
-
-    access_hierarchy:
-        class: Symfony\Component\Security\Core\Role\RoleHierarchy
-        arguments: [%security.role_hierarchy.roles%]
-
-    access_voter:
-        class: RJP\ApiBundle\Security\Authorization\Voter\AccessVoter
-        public: false
-        arguments:
-            - @access_hierarchy
-        tags:
-            - { name: security.voter }
+ #   api.user_provider:
+ #       class: RJP\ApiBundle\Security\ApiKeyUserProvider
+ #       arguments: ["@doctrine.orm.entity_manager"]
+ #
+ #   api.key_authenticator:
+ #       class:     RJP\ApiBundle\Security\ApiKeyAuthenticator
+ #       arguments: ["@api.user_provider"]
+ #
+ #   api.dispatch.controller_listener:
+ #       class: RJP\ApiBundle\EventListener\EventListener
+ #       arguments: [@service_container, @rjp.api]
+ #       tags:
+ #           - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+ #
+ #   api.dispatch.request_listener:
+ #       class: RJP\ApiBundle\EventListener\RequestListener
+ #       arguments: [ @service_container ]
+ #       tags:
+ #         - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 255 }
+ #
+ #   access_hierarchy:
+ #       class: Symfony\Component\Security\Core\Role\RoleHierarchy
+ #       arguments: [%security.role_hierarchy.roles%]
+ #
+ #   access_voter:
+ #       class: RJP\ApiBundle\Security\Authorization\Voter\AccessVoter
+ #       public: false
+ #       arguments:
+ #           - @access_hierarchy
+ #       tags:
+ #           - { name: security.voter }
 
     jms_serializer.camel_case_naming_strategy.naming_strategy:
         class: 'JMS\Serializer\Naming\IdenticalPropertyNamingStrategy'
