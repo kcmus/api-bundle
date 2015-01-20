@@ -35,5 +35,5 @@ services:
  #       tags:
  #           - { name: security.voter }
 
-    jms_serializer.camel_case_naming_strategy.naming_strategy:
-        class: 'JMS\Serializer\Naming\IdenticalPropertyNamingStrategy'
+ #   jms_serializer.camel_case_naming_strategy.naming_strategy:
+ #       class: 'JMS\Serializer\Naming\IdenticalPropertyNamingStrategy'
