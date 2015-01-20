@@ -16,9 +16,7 @@
         "symfony/framework-bundle": "~2.4",
         "symfony/twig-bundle": "~2.4",
         "symfony/form": "~2.4",
-        "symfony/security-bundle": "~2.4"
-    },
-    "require-dev": {
+        "symfony/security-bundle": "~2.4",
         "jms/serializer": "0.17.*@dev",
         "friendsofsymfony/rest-bundle": "1.4.*",
         "jms/serializer-bundle": "0.13.*@dev",
@@ -26,6 +24,9 @@
         "nelmio/api-doc-bundle": "2.7.*@dev",
         "willdurand/hateoas": "2.4.*@dev",
         "willdurand/hateoas-bundle": "1.0.*@dev"
+    },
+    "require-dev": {
+
     },
     "autoload": {
         "psr-4": { "RJP\\ApiBundle\\": "" }
