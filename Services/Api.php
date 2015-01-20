@@ -378,7 +378,7 @@ class Api
             }
             else
             {
-                throw new \Exception('unsupportd_serialization_type');
+                throw new \Exception('unsupported_serialization_type');
             }
 
             if ($annotation->getOutput())
