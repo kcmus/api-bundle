@@ -450,7 +450,8 @@ class Api
                             && in_array($this->getPrimaryKeyField($this->getType($toPointer, $property)), $arrayValue->getProperties())
                         )
                         {
-                            if (!empty($arrayValue->{'get'.ucfirst($this->getPrimaryKeyField($this->getType($toPointer, $property)))}()))
+                            $value = $arrayValue->{'get'.ucfirst($this->getPrimaryKeyField($this->getType($toPointer, $property)))}();
+                            if (!empty($value))
                             {
                                 $record = $this->findRecord(
                                     $this->getPrimaryKeyField($this->getType($toPointer, $property)),

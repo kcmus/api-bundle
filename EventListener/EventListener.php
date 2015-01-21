@@ -44,7 +44,8 @@ class EventListener
 
         // Check if the client requested a versioned response
         $apiResponseVersion = null;
-        if (!empty($request->headers->get('api-accept-version')))
+        $header = $request->headers->get('api-accept-version');
+        if (!empty($header))
         {
             $apiResponseVersion = $request->headers->get('api-accept-version');
             $this->api->setApiResponseVersion($apiResponseVersion);
@@ -52,7 +53,8 @@ class EventListener
 
         // Check for a versioned content type
         $apiRequestVersion = null;
-        if (!empty($request->headers->get('api-content-type-version')))
+        $header = $request->headers->get('api-content-type-version');
+        if (!empty($header))
         {
             $apiRequestVersion = $request->headers->get('api-content-type-version');
             $this->api->setApiRequestVersion($apiRequestVersion);
