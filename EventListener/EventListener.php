@@ -74,7 +74,8 @@ class EventListener
             {
                 if (is_array($annotation->getInput()) && count($annotation->getInput()))
                 {
-                    $serializerGroups = $annotation->getInput()['groups'];
+                    $input = $annotation->getInput();
+                    $serializerGroups = $input['groups'];
                 }
                 else
                 {
@@ -89,10 +90,12 @@ class EventListener
                     $context->setVersion($apiRequestVersion);
                 }
 
+                $input = $annotation->getInput();
+
                 // Deserialize into the input class
                 $deserialized = $serializer->deserialize(
                     $request->getContent(),
-                    (is_array($annotation->getInput())?$annotation->getInput()['class']: $annotation->getInput()),
+                    (is_array($input) ? $input['class'] : $input),
                     $request->getContentType(),
                     $context
                 );
@@ -146,7 +149,8 @@ class EventListener
                             }
                             else if (is_numeric($path[$i+1]))
                             {
-                                $pointer = $pointer->{'get'.ucfirst($path[$i])}()[$path[$i+1]];
+                                $pointer = $pointer->{'get'.ucfirst($path[$i])}();
+                                $pointer = $pointer[$path[$i+1]];
 
                                 $i++;
                             }

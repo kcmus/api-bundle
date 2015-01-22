@@ -390,9 +390,11 @@ class Api
                     $deserializationContext->setVersion($this->getApiResponseVersion());
                 }
 
+                $output = $annotation->getOutput();
+
                 $deserialized = $this->serializer->deserialize(
                     $serialized,
-                    (is_array($annotation->getOutput())?$annotation->getOutput()['class']: $annotation->getOutput()),
+                    (is_array($output) ? $output['class'] : $output),
                     'json',
                     $deserializationContext
                 );
