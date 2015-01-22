@@ -44,7 +44,8 @@ class ApiKeyUserProvider implements UserProviderInterface
     {
         $roles = array();
 
-        foreach ($this->userToken->getUser()->getRole()->toArray() as $role)
+        $userRoles = $this->userToken->getUser()->getRole()->toArray();
+        foreach ($userRoles as $role)
         {
             $roles[] = $role->getName();
         }

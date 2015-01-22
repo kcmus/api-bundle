@@ -437,7 +437,8 @@ class Api
      */
     public function mapObject(&$toPointer, &$fromPointer)
     {
-        foreach ($fromPointer->getProperties() as &$property)
+        $properties = $fromPointer->getProperties();
+        foreach ($properties as &$property)
         {
             if (method_exists($fromPointer, 'get'.ucfirst($property)))
             {
