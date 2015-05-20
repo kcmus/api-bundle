@@ -475,6 +475,13 @@ class Api
                                 $toPointer->{'add'.ucfirst($property)}($new);
                             }
                         }
+                        else if (!in_array($this->getPrimaryKeyField($this->getType($toPointer, $property)), $arrayValue->getProperties()))
+                        {
+                            $class = $this->getType($toPointer, $property);
+                            $new = new $class();
+                            $this->mapObject($new, $arrayValue);
+                            $toPointer->{'add'.ucfirst($property)}($new);
+                        }
                     }
                 }
                 else if (is_object($propertyValue) && $propertyValue instanceof Contract)
