@@ -360,8 +360,13 @@ class Api
             $route = $this->request->getCurrentRequest()->attributes->get('_route');
             $annotation = $this->apiDoc->get($this->request->getCurrentRequest()->attributes->get('_controller'), $route);
 
-            if (is_object($object))
+            if (is_object($object) || is_array($object))
             {
+                if (is_array($object))
+                {
+                    $object = $this->mapEmbedded($object);
+                }
+
                 $serializationContext = SerializationContext::create();
                 $serializationContext->setGroups(array('Default', 'Association'));
                 if ($this->getApiResponseVersion() !== null)
@@ -370,11 +375,6 @@ class Api
                 }
 
                 $serialized = $this->serializer->serialize($object, 'json', $serializationContext);
-            }
-            else if (is_array($object))
-            {
-                $object = $this->mapEmbedded($object);
-                $serialized = json_encode($object);
             }
             else
             {
