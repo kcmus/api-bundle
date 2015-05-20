@@ -224,22 +224,25 @@ class EventListener
     {
         $aReturn = array();
 
-        foreach ($aArray1 as $mKey => $mValue)
+        if (is_array($aArray1))
         {
-            if (array_key_exists($mKey, $aArray2))
+            foreach ($aArray1 as $mKey => $mValue)
             {
-                if (is_array($mValue))
+                if (array_key_exists($mKey, $aArray2))
                 {
-                    $aRecursiveDiff = $this->arrayRecursiveDiff($mValue, $aArray2[$mKey]);
-                    if (count($aRecursiveDiff))
+                    if (is_array($mValue))
                     {
-                        $aReturn[$mKey] = $aRecursiveDiff;
+                        $aRecursiveDiff = $this->arrayRecursiveDiff($mValue, $aArray2[$mKey]);
+                        if (count($aRecursiveDiff))
+                        {
+                            $aReturn[$mKey] = $aRecursiveDiff;
+                        }
                     }
                 }
-            }
-            else
-            {
-                $aReturn[$mKey] = $mValue;
+                else
+                {
+                    $aReturn[$mKey] = $mValue;
+                }
             }
         }
 
