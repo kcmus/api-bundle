@@ -338,6 +338,7 @@ class Api
 
             foreach ($object as $error)
             {
+                $errors['errors']['paths'][$error->getPropertyPath()] = $error->getMessage();
                 $errorTree = explode('.', preg_replace('/\[(\d+)\]/', '.$1', $error->getPropertyPath()));
                 $this->recurseErrorsTree($errorTree, $this->errorContainer, $error);
             }
