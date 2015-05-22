@@ -98,7 +98,7 @@ class Contract
             {
                 $propertyValue = $this->{'get'.ucfirst($property)}();
 
-                if (is_array($propertyValue) && method_exists($propertyValue[0], 'getArray'))
+                if (is_array($propertyValue) && isset($propertyValue[0]) && method_exists($propertyValue[0], 'getArray'))
                 {
                     foreach ($propertyValue as $arrayKey => &$arrayValue)
                     {
