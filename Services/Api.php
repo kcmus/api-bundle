@@ -22,6 +22,7 @@ class Api
     private $security;
     private $serializer;
     private $doctrine;
+    private $connection;
 
     public function __construct(RequestStack $request, SecurityContextInterface $security, $apiDoc, $serializer, $doctrine = null)
     {
@@ -40,12 +41,25 @@ class Api
         $this->doctrine = $doctrine;
     }
 
+    public function setConnection($connection)
+    {
+        $this->connection = $connection;
+    }
+
     /**
      * @return mixed
      */
     public function getDoctrine()
     {
         return $this->doctrine;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConnection()
+    {
+        return $this->connection;
     }
 
     private $errorContainer;
@@ -548,7 +562,7 @@ class Api
     {
         if ($this->doctrine !== null)
         {
-            return $this->getDoctrine()->getManager()->getClassMetadata((is_object($mixed) ? get_class($mixed) : $mixed));
+            return $this->getDoctrine()->getManager($this->getConnection())->getClassMetadata((is_object($mixed) ? get_class($mixed) : $mixed));
         }
 
         return null;
