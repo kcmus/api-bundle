@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="security_user")
  * @ORM\Entity
  */
-class User
+class SecurityUser
 {
     /**
      * @var integer
@@ -24,24 +24,24 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="first_name", type="string", length=45, nullable=false)
+     * @ORM\Column(name="name", type="string", length=45, nullable=false)
      */
-    private $firstName;
+    private $name;
 
     /**
      * @return string
      */
-    public function getFirstName()
+    public function getName()
     {
-        return $this->firstName;
+        return $this->name;
     }
 
     /**
-     * @param string $firstName
+     * @param string $name
      */
-    public function setFirstName($firstName)
+    public function setName($name)
     {
-        $this->firstName = $firstName;
+        $this->name = $name;
     }
 
     /**

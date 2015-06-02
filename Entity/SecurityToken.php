@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Token
  *
- * @ORM\Table(name="token", uniqueConstraints={@ORM\UniqueConstraint(name="token_UNIQUE", columns={"token"})}, indexes={@ORM\Index(name="fk_token_1_idx", columns={"user_id"})})
+ * @ORM\Table(name="security_token", uniqueConstraints={@ORM\UniqueConstraint(name="token_UNIQUE", columns={"token"})}, indexes={@ORM\Index(name="fk_token_1_idx", columns={"security_user_id"})})
  * @ORM\Entity
  */
-class Token
+class SecurityToken
 {
     /**
      * @var string
@@ -22,14 +22,14 @@ class Token
     private $token;
 
     /**
-     * @var \User
+     * @var SecurityUser
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="SecurityUser")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="security_user_id", referencedColumnName="id")
      * })
      */
-    private $user;
+    private $securityUser;
 
     /**
      * @return string
@@ -48,18 +48,18 @@ class Token
     }
 
     /**
-     * @return \User
+     * @return SecurityUser
      */
-    public function getUser()
+    public function getSecurityUser()
     {
-        return $this->user;
+        return $this->securityUser;
     }
 
     /**
-     * @param \User $user
+     * @param SecurityUser $securityUser
      */
-    public function setUser($user)
+    public function setSecurityUser($securityUser)
     {
-        $this->user = $user;
+        $this->securityUser = $securityUser;
     }
 }

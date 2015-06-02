@@ -15,25 +15,25 @@ services:
         tags:
           - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 255 }
 
- #   api.user_provider:
- #       class: RJP\ApiBundle\Security\ApiKeyUserProvider
- #       arguments: ["@doctrine.orm.entity_manager"]
- #
- #   api.key_authenticator:
- #       class:     RJP\ApiBundle\Security\ApiKeyAuthenticator
- #       arguments: ["@api.user_provider"]
- #
- #   access_hierarchy:
- #       class: Symfony\Component\Security\Core\Role\RoleHierarchy
- #       arguments: [%security.role_hierarchy.roles%]
- #
- #   access_voter:
- #       class: RJP\ApiBundle\Security\Authorization\Voter\AccessVoter
- #       public: false
- #       arguments:
- #           - @access_hierarchy
- #       tags:
- #           - { name: security.voter }
+    api.user_provider:
+        class: RJP\ApiBundle\Security\ApiKeyUserProvider
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    api.key_authenticator:
+        class:     RJP\ApiBundle\Security\ApiKeyAuthenticator
+        arguments: ["@api.user_provider"]
+
+    access_hierarchy:
+        class: Symfony\Component\Security\Core\Role\RoleHierarchy
+        arguments: [%security.role_hierarchy.roles%]
+
+    access_voter:
+        class: RJP\ApiBundle\Security\Authorization\Voter\AccessVoter
+        public: false
+        arguments:
+            - @access_hierarchy
+        tags:
+            - { name: security.voter }
 
  #   jms_serializer.camel_case_naming_strategy.naming_strategy:
  #       class: 'JMS\Serializer\Naming\IdenticalPropertyNamingStrategy'

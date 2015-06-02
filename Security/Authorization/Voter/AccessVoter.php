@@ -14,7 +14,7 @@ class AccessVoter extends RoleVoter
 {
     private $roleHierarchy;
 
-    public function __construct(RoleHierarchyInterface $roleHierarchy, $prefix = 'admin.')
+    public function __construct(RoleHierarchyInterface $roleHierarchy, $prefix = 'api.')
     {
         $this->roleHierarchy = $roleHierarchy;
 

@@ -8,11 +8,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 use RJP\ApiBundle\Security\ApiUser;
-use RJP\ApiBundle\Entity\Token;
+use RJP\ApiBundle\Entity\SecurityToken;
 
 class ApiKeyUserProvider implements UserProviderInterface
 {
     private $doctrine;
+    /** @var \RJP\ApiBundle\Entity\SecurityToken userToken */
     private $userToken;
 
     public function __construct($doctrine)
@@ -20,19 +21,23 @@ class ApiKeyUserProvider implements UserProviderInterface
         $this->doctrine = $doctrine;
     }
 
+    /**
+     * @param $apiKey
+     * @return string
+     */
     public function getUsernameForApiKey($apiKey)
     {
-        $this->userToken = $this->doctrine->getRepository('RJPApiBundle:Token')->findOneByToken($apiKey);
+        $this->userToken = $this->doctrine->getRepository('RJPApiBundle:SecurityToken')->findOneByToken($apiKey);
 
         if (empty($this->userToken))
         {
             // Temporary until I can get a custom exception handler setup
-            throw new AccessDeniedException();
+            return null;
         }
 
         try
         {
-            return $this->userToken->getUser()->getEmail();
+            return $this->userToken->getSecurityUser()->getName();
         }
         catch (\Exception $e)
         {
@@ -42,25 +47,12 @@ class ApiKeyUserProvider implements UserProviderInterface
 
     public function loadUserByUsername($username)
     {
-        $roles = array();
-
-        $userRoles = $this->userToken->getUser()->getRole()->toArray();
-        foreach ($userRoles as $role)
-        {
-            $roles[] = $role->getName();
-        }
-
-        if (empty($roles))
-        {
-            $roles[] = "admin.user";
-        }
-
         return new ApiUser(
             $username,
             null,
             null,
-            $roles,
-            $this->userToken->getUser()
+            array('api.admin'),
+            $this->userToken->getSecurityUser()
         );
     }
 
