@@ -502,15 +502,15 @@ class Api
                 else if (is_object($propertyValue) && $propertyValue instanceof Contract)
                 {
                     $pointer = $toPointer->{'get'.ucfirst($property)}();
-                    if ($pointer === null)
+                    if ($pointer === null && method_exists($toPointer, 'set'.ucfirst($property)))
                     {
                         $class = $this->getType($toPointer, $property);
                         $pointer = new $class();
-                        $toPointer->{'set'.ucfirst($property)}($pointer);
+                        $toPointer->{'set' . ucfirst($property)}($pointer);
                     }
                     $this->mapObject($pointer, $propertyValue);
                 }
-                else if (!is_object($propertyValue) && $property != 'validator')
+                else if (!is_object($propertyValue) && $property != 'validator' && method_exists($toPointer, 'set'.ucfirst($property)))
                 {
                     $toPointer->{'set'.ucfirst($property)}($fromPointer->{'get'.ucfirst($property)}());
                 }
