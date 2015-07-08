@@ -190,6 +190,8 @@ class EventListener
                     {
                         $this->buildObjectPath($callback, $value[$i], $this->arrayPush($path, $i));
                     }
+
+                    array_pop($path);
                 }
                 else if (is_array($value) && count($value) && $this->isAssociative($value))
                 {
