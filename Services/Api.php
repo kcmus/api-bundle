@@ -455,7 +455,7 @@ class Api
         $properties = $fromPointer->getProperties();
         foreach ($properties as &$property)
         {
-            if (method_exists($fromPointer, 'get'.ucfirst($property)))
+            if (method_exists($toPointer, 'set' . ucfirst($property)) && method_exists($fromPointer, 'get'.ucfirst($property)))
             {
                 $propertyValue = $fromPointer->{'get'.ucfirst($property)}();
 
@@ -580,7 +580,14 @@ class Api
     {
         if ($this->doctrine !== null)
         {
-            return $this->getDoctrine()->getManager($this->getConnection())->getClassMetadata((is_object($mixed) ? get_class($mixed) : $mixed));
+            try
+            {
+                return $this->getDoctrine()->getManager($this->getConnection())->getClassMetadata((is_object($mixed) ? get_class($mixed) : $mixed));
+            }
+            catch (\Exception $e)
+            {
+                // Not found
+            }
         }
 
         return null;
@@ -615,10 +622,19 @@ class Api
      */
     public function getPrimaryKeyField($object)
     {
-        foreach ($this->getMetadata($object)->fieldMappings as $key => $data) {
-            if (isset($data['id']) && $data['id']) {
-                return $key;
+        try
+        {
+            foreach ($this->getMetadata($object)->fieldMappings as $key => $data)
+            {
+                if (isset($data['id']) && $data['id'])
+                {
+                    return $key;
+                }
             }
+        }
+        catch (\Exception $e)
+        {
+            // Not a doctrine object
         }
 
         return false;
