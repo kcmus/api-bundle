@@ -66,7 +66,7 @@ class EventListener
         }
 
         // We're only gonna do it if it's a post/put/patch/etc
-        if (in_array($request->getMethod(), array("POST", "PUT", "PATCH")))
+        if (in_array($request->getMethod(), array("POST", "PUT", "PATCH", "DELETE")))
         {
             $serializer = $this->container->get('jms_serializer');
 
