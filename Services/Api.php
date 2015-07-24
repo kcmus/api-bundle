@@ -455,11 +455,6 @@ class Api
         $properties = $fromPointer->getProperties();
         foreach ($properties as &$property)
         {
-            if ($this->getType($toPointer, $property) === null)
-            {
-                return;
-            }
-
             if (method_exists($fromPointer, 'get'.ucfirst($property)))
             {
                 $propertyValue = $fromPointer->{'get'.ucfirst($property)}();
@@ -490,17 +485,23 @@ class Api
                             else
                             {
                                 $class = $this->getType($toPointer, $property);
-                                $new = new $class();
-                                $this->mapObject($new, $arrayValue);
-                                $toPointer->{'add'.ucfirst($property)}($new);
+                                if ($class !== null)
+                                {
+                                    $new = new $class();
+                                    $this->mapObject($new, $arrayValue);
+                                    $toPointer->{'add'.ucfirst($property)}($new);
+                                }
                             }
                         }
                         else if (!in_array($this->getPrimaryKeyField($this->getType($toPointer, $property)), $arrayValue->getProperties()))
                         {
                             $class = $this->getType($toPointer, $property);
                             $new = new $class();
-                            $this->mapObject($new, $arrayValue);
-                            $toPointer->{'add'.ucfirst($property)}($new);
+                            if ($class !== null)
+                            {
+                                $this->mapObject($new, $arrayValue);
+                                $toPointer->{'add' . ucfirst($property)}($new);
+                            }
                         }
                     }
                 }
@@ -511,7 +512,10 @@ class Api
                     {
                         $class = $this->getType($toPointer, $property);
                         $pointer = new $class();
-                        $toPointer->{'set' . ucfirst($property)}($pointer);
+                        if ($class !== null)
+                        {
+                            $toPointer->{'set' . ucfirst($property)}($pointer);
+                        }
                     }
                     $this->mapObject($pointer, $propertyValue);
                 }
