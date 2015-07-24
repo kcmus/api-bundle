@@ -201,10 +201,6 @@ class EventListener
                 {
                     $callback($this->arrayPush($path, $key));
                 }
-                else
-                {
-                    throw new \Exception('invalid_request_format');
-                }
             }
         }
     }
