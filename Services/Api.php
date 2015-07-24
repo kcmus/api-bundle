@@ -455,6 +455,11 @@ class Api
         $properties = $fromPointer->getProperties();
         foreach ($properties as &$property)
         {
+            if ($this->getType($toPointer, $property) === null)
+            {
+                return;
+            }
+
             if (method_exists($fromPointer, 'get'.ucfirst($property)))
             {
                 $propertyValue = $fromPointer->{'get'.ucfirst($property)}();
@@ -548,7 +553,16 @@ class Api
      */
     public function getType($object, $property)
     {
-        return $this->getMetadata($object)->associationMappings[$property]['targetEntity'];
+        try
+        {
+            return $this->getMetadata($object)->associationMappings[$property]['targetEntity'];
+        }
+        catch (\Exception $e)
+        {
+            // Not found in doctrine
+        }
+
+        return null;
     }
 
     /**
