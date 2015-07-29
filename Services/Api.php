@@ -422,7 +422,7 @@ class Api
 
                 $this->mapEmbeddedToObject($deserialized);
 
-                if ($merge)
+                if ($merge && method_exists($deserialized, 'setValidator'))
                 {
                     $deserialized->setValidator($this->container->get('validator'));
                 }
