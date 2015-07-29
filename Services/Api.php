@@ -23,14 +23,16 @@ class Api
     private $serializer;
     private $doctrine;
     private $connection;
+    private $container;
 
-    public function __construct(RequestStack $request, SecurityContextInterface $security, $apiDoc, $serializer, $doctrine = null)
+    public function __construct(RequestStack $request, SecurityContextInterface $security, $apiDoc, $serializer, $container, $doctrine = null)
     {
         $this->apiDoc = $apiDoc;
         $this->request = $request;
         $this->security = $security;
         $this->serializer = $serializer;
         $this->doctrine = $doctrine;
+        $this->container = $container;
     }
 
     /**
@@ -93,12 +95,6 @@ class Api
      * @var string
      */
     private $apiResponseVersion = null;
-    /**
-     * Channel partner of the current API user
-     *
-     * @var \RJP\ApiBundle\Entity\ChannelPartner
-     */
-    private $apiUserChannelPartner;
     /**
      * Sets the current raw HTTP POST|PUT|PATCH request
      *
@@ -342,9 +338,11 @@ class Api
      * Serialize a return object for display.  This could be either a contract payload, or constraint violations.
      *
      * @param object|array $object What to serialize
+     * @param bool $merge
+     * @throws \Exception
      * @return object
      */
-    public function serialize($object)
+    public function serialize($object, $merge = false)
     {
         if ($object instanceof ConstraintViolationList)
         {
@@ -405,7 +403,14 @@ class Api
                     $deserializationContext->setVersion($this->getApiResponseVersion());
                 }
 
-                $output = $annotation->getOutput();
+                if ($merge)
+                {
+                    $output = $annotation->getInput();
+                }
+                else
+                {
+                    $output = $annotation->getOutput();
+                }
 
                 $deserialized = $this->serializer->deserialize(
                     $serialized,
@@ -414,7 +419,13 @@ class Api
                     $deserializationContext
                 );
 
+
                 $this->mapEmbeddedToObject($deserialized);
+
+                if ($merge)
+                {
+                    $deserialized->setValidator($this->container->get('validator'));
+                }
 
                 return $deserialized;
             }
