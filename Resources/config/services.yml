@@ -1,7 +1,7 @@
 services:
     rjp.api:
         class: RJP\ApiBundle\Services\Api
-        arguments: [@request_stack, @security.context, @nelmio_api_doc.extractor.api_doc_extractor, @jms_serializer, @doctrine]
+        arguments: [@request_stack, @security.context, @nelmio_api_doc.extractor.api_doc_extractor, @jms_serializer, @service_container, @doctrine]
 
     api.dispatch.controller_listener:
         class: RJP\ApiBundle\EventListener\EventListener
