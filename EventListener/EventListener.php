@@ -106,7 +106,7 @@ class EventListener
                 {
                     // This time deserialize into an array
                     $deserializedArray = $serializer->deserialize(
-                        $request->getContent(),
+                        ($request->getContent() != '' ? $request->getContent() : '{}'),
                         'array',
                         $request->getContentType()
                     );
