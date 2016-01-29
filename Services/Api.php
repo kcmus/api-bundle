@@ -530,6 +530,10 @@ class Api
                     }
                     $this->mapObject($pointer, $propertyValue);
                 }
+                else if (is_object($propertyValue))
+                {
+                    $toPointer->{'set'.ucfirst($property)}($fromPointer->{'get'.ucfirst($property)}());
+                }
                 else if (!is_object($propertyValue) && $property != 'validator' && method_exists($toPointer, 'set'.ucfirst($property)))
                 {
                     $toPointer->{'set'.ucfirst($property)}($fromPointer->{'get'.ucfirst($property)}());
