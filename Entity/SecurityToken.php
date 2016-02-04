@@ -22,12 +22,8 @@ class SecurityToken
     private $token;
 
     /**
-     * @var SecurityUser
-     *
-     * @ORM\ManyToOne(targetEntity="SecurityUser")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="security_user_id", referencedColumnName="id")
-     * })
+     * @ORM\OneToOne(targetEntity="SecurityUser", inversedBy="token")
+     * @ORM\JoinColumn(name="security_user_id", referencedColumnName="id")
      */
     private $securityUser;
 
