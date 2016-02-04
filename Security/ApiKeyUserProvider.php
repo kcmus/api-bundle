@@ -47,11 +47,19 @@ class ApiKeyUserProvider implements UserProviderInterface
 
     public function loadUserByUsername($username)
     {
+        $roles = array();
+
+        /** @var \RJP\ApiBundle\Entity\SecurityUserRole $role */
+        foreach ($this->userToken->getSecurityUser()->getRoles() as $role)
+        {
+            $roles[] = $role->getRole();
+        }
+
         return new ApiUser(
             $username,
             null,
             null,
-            array('api.admin'),
+            $roles,
             $this->userToken->getSecurityUser()
         );
     }
