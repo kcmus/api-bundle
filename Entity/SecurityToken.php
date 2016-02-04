@@ -17,7 +17,7 @@ class SecurityToken
      *
      * @ORM\Column(name="token", type="string", length=255, nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="UUID")
      */
     private $token;
 
