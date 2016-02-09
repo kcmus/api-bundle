@@ -90,34 +90,41 @@ class EventListener
                     $context->setVersion($apiRequestVersion);
                 }
 
+                // Holder for our input annotation
                 $input = $annotation->getInput();
+
+                // See if our content is a form, if it is, we have to first make it JSON
+                $content = $request->getContentType() == 'form' ? json_encode($request->request->all(), JSON_FORCE_OBJECT) : $request->getContent();
+
+                // See if the content type is form, if so we need to pretend the content type is JSON
+                $contentType = $request->getContentType() == 'form' ? 'json' : $request->getContentType();
 
                 // Deserialize into the input class
                 $deserialized = $serializer->deserialize(
-                    $request->getContent(),
+                    $content,
                     (is_array($input) ? $input['class'] : $input),
-                    $request->getContentType(),
+                    $contentType,
                     $context
                 );
 
                 $this->deserialized = $deserialized;
 
-                if ($request->getContentType() != "xml")
+                if ($contentType != "xml")
                 {
                     // This time deserialize into an array
                     $deserializedArray = $serializer->deserialize(
-                        ($request->getContent() != '' ? $request->getContent() : '{}'),
+                        ($content != '' ? $content : '{}'),
                         'array',
-                        $request->getContentType()
+                        $contentType
                     );
                 }
                 else
                 {
-                    $deserializedArray = (array) simplexml_load_string($request->getContent());
+                    $deserializedArray = (array) simplexml_load_string($content);
                 }
 
                 $this->api->setApiRequest($deserialized);
-                $this->api->setRawApiRequest($request->getContent());
+                $this->api->setRawApiRequest($content);
 
                 // Compare the serialized request to the data that was sent
                 // We need to know what was sent vs what wasn't
