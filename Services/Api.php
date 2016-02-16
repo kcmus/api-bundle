@@ -96,6 +96,29 @@ class Api
      */
     private $apiResponseVersion = null;
     /**
+     * Flag for whether or not we want to persi
+     *
+     * @var bool
+     */
+    private $validateOnly = false;
+
+    /**
+     * @return boolean
+     */
+    public function isValidateOnly()
+    {
+        return $this->validateOnly;
+    }
+
+    /**
+     * @param boolean $validateOnly
+     */
+    public function setValidateOnly($validateOnly)
+    {
+        $this->validateOnly = $validateOnly;
+    }
+
+    /**
      * Sets the current raw HTTP POST|PUT|PATCH request
      *
      * @param string $rawApiRequest Raw POST|PUT|PATCH request

@@ -51,6 +51,12 @@ class EventListener
             $this->api->setApiResponseVersion($apiResponseVersion);
         }
 
+        // Check for the validate flag
+        if (($validate = $request->query->get('validate')) != 0)
+        {
+            $this->api->setValidateOnly(true);
+        }
+
         // Check for a versioned content type
         $apiRequestVersion = null;
         $header = $request->headers->get('api-content-type-version');
