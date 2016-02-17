@@ -362,10 +362,11 @@ class Api
      *
      * @param object|array $object What to serialize
      * @param bool $merge
-     * @throws \Exception
+     * @param null $mergeClass
      * @return object
+     * @throws \Exception
      */
-    public function serialize($object, $merge = false)
+    public function serialize($object, $merge = false, $mergeClass = null)
     {
         if ($object instanceof ConstraintViolationList)
         {
@@ -428,7 +429,7 @@ class Api
 
                 if ($merge)
                 {
-                    $output = $annotation->getInput();
+                    $output = $mergeClass ? $mergeClass : $annotation->getInput();
                 }
                 else
                 {
