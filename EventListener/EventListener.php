@@ -199,9 +199,9 @@ class EventListener
                 {
                     array_push($path, $key);
 
-                    for ($i = 0; $i < count($value); $i++)
+                    foreach ($value as $valueKey => $valueValue)
                     {
-                        $this->buildObjectPath($callback, $value[$i], $this->arrayPush($path, $i));
+                        $this->buildObjectPath($callback, $valueValue, $this->arrayPush($path, $valueKey));
                     }
 
                     array_pop($path);
