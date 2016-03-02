@@ -542,17 +542,21 @@ class Api
                 }
                 else if (is_object($propertyValue) && $propertyValue instanceof Contract)
                 {
+                    $class = null;
                     $pointer = $toPointer->{'get'.ucfirst($property)}();
+
                     if ($pointer === null && method_exists($toPointer, 'set'.ucfirst($property)))
                     {
                         $class = $this->getType($toPointer, $property);
                         $pointer = new $class();
-                        if ($class !== null)
-                        {
-                            $toPointer->{'set' . ucfirst($property)}($pointer);
-                        }
                     }
+
                     $this->mapObject($pointer, $propertyValue);
+
+                    if ($class !== null)
+                    {
+                        $toPointer->{'set' . ucfirst($property)}($pointer);
+                    }
                 }
                 else if (is_object($propertyValue))
                 {
