@@ -78,7 +78,7 @@ class EventListener
 
             try
             {
-                if (is_array($annotation->getInput()) && count($annotation->getInput()))
+                if (is_array($annotation->getInput()) && count($annotation->getInput()) && $annotation)
                 {
                     $input = $annotation->getInput();
                     $serializerGroups = $input['groups'];
