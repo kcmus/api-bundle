@@ -99,6 +99,11 @@ class EventListener
                 // Holder for our input annotation
                 $input = $annotation->getInput();
 
+                if (empty($input))
+                {
+                    return;
+                }
+
                 // See if our content is a form, if it is, we have to first make it JSON
                 $content = $request->getContentType() == 'form' ? json_encode($request->request->all(), JSON_FORCE_OBJECT) : $request->getContent();
 
