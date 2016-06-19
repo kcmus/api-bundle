@@ -17,7 +17,7 @@ services:
 
     api.user_provider:
         class: RJP\ApiBundle\Security\ApiKeyUserProvider
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager", @service_container]
 
     api.key_authenticator:
         class:     RJP\ApiBundle\Security\ApiKeyAuthenticator

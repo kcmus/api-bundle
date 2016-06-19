@@ -4,13 +4,7 @@ namespace RJP\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * User Role
- *
- * @ORM\Table(name="security_user_role")
- * @ORM\Entity
- */
-class SecurityUserRole
+abstract class AbstractSecurityUserRole
 {
     /**
      * @var integer
@@ -19,22 +13,11 @@ class SecurityUserRole
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="role", type="string", length=45, nullable=false)
-     */
-    private $role;
+    protected $role;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="SecurityUser")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="security_user_id", referencedColumnName="id")
-     * })
-     */
-    private $user;
+    protected $user;
 
     public function setUser($user = null)
     {

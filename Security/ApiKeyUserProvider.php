@@ -12,13 +12,41 @@ use RJP\ApiBundle\Entity\SecurityToken;
 
 class ApiKeyUserProvider implements UserProviderInterface
 {
+    /** @var \Doctrine\ORM\EntityManager $em */
     private $doctrine;
-    /** @var \RJP\ApiBundle\Entity\SecurityToken userToken */
+
+    /** @var \RJP\ApiBundle\Entity\AbstractSecurityToken userToken */
     private $userToken;
 
-    public function __construct($doctrine)
+    /** @var \Symfony\Component\DependencyInjection\Container $container */
+    private $container;
+
+    private $tokenClass;
+    private $securityUserClass;
+    private $securityRoleClass;
+
+    public function __construct($doctrine, $container)
     {
         $this->doctrine = $doctrine;
+        $this->container = $container;
+    }
+
+    private function setupClasses()
+    {
+        if (empty($this->tokenClass))
+        {
+            $this->tokenClass = $this->container->getParameter('rjp.api.token_class');
+        }
+
+        if (empty($this->securityUserClass))
+        {
+            $this->securityUserClass = $this->container->getParameter('rjp.api.security_user_class');
+        }
+
+        if (empty($this->securityRoleClass))
+        {
+            $this->securityRoleClass = $this->container->getParameter('rjp.api.security_role_class');
+        }
     }
 
     /**
@@ -27,29 +55,31 @@ class ApiKeyUserProvider implements UserProviderInterface
      */
     public function getUsernameForApiKey($apiKey)
     {
-        $this->userToken = $this->doctrine->getRepository('RJPApiBundle:SecurityToken')->findOneByToken($apiKey);
-
-        if (empty($this->userToken))
-        {
-            // Temporary until I can get a custom exception handler setup
-            return null;
-        }
+        $this->setupClasses();
 
         try
         {
+            $this->userToken = $this->doctrine->createQuery('
+                select t
+                from '.$this->tokenClass.' t
+                where t.token = :token
+            ')->setParameter('token', $apiKey)->getSingleResult();
+
             return $this->userToken->getSecurityUser()->getName();
         }
         catch (\Exception $e)
         {
-            throw new AccessDeniedException();
+            return null;
         }
     }
 
     public function loadUserByUsername($username)
     {
+        $this->setupClasses();
+
         $roles = array();
 
-        /** @var \RJP\ApiBundle\Entity\SecurityUserRole $role */
+        /** @var \RJP\ApiBundle\Entity\AbstractSecurityUserRole $role */
         foreach ($this->userToken->getSecurityUser()->getRoles() as $role)
         {
             $roles[] = $role->getRole();

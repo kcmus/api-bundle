@@ -4,13 +4,7 @@ namespace RJP\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Token
- *
- * @ORM\Table(name="security_token", uniqueConstraints={@ORM\UniqueConstraint(name="token_UNIQUE", columns={"token"})}, indexes={@ORM\Index(name="fk_token_1_idx", columns={"security_user_id"})})
- * @ORM\Entity
- */
-class SecurityToken
+abstract class AbstractSecurityToken
 {
     /**
      * @var string
@@ -19,13 +13,9 @@ class SecurityToken
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
      */
-    private $token;
+    protected $token;
 
-    /**
-     * @ORM\OneToOne(targetEntity="SecurityUser", inversedBy="token")
-     * @ORM\JoinColumn(name="security_user_id", referencedColumnName="id")
-     */
-    private $securityUser;
+    protected $securityUser;
 
     /**
      * @return string
@@ -44,7 +34,7 @@ class SecurityToken
     }
 
     /**
-     * @return SecurityUser
+     * @return \RJP\ApiBundle\Entity\AbstractSecurityUser
      */
     public function getSecurityUser()
     {
@@ -52,7 +42,7 @@ class SecurityToken
     }
 
     /**
-     * @param SecurityUser $securityUser
+     * @param \RJP\ApiBundle\Entity\AbstractSecurityUser $securityUser
      */
     public function setSecurityUser($securityUser)
     {

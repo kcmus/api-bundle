@@ -23,14 +23,8 @@ abstract class AbstractSecurityUser
      */
     protected $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="RJP\ApiBundle\Entity\SecurityUserRole", mappedBy="user", cascade={"persist"})
-     **/
     protected $roles;
 
-    /**
-     * @ORM\OneToOne(targetEntity="RJP\ApiBundle\Entity\SecurityToken", mappedBy="securityUser")
-     */
     protected $token;
 
     public function __construct()
@@ -39,7 +33,7 @@ abstract class AbstractSecurityUser
     }
 
     /**
-     * @return \RJP\ApiBundle\Entity\SecurityToken
+     * @return \RJP\ApiBundle\Entity\AbstractSecurityToken
      */
     public function getToken()
     {
@@ -62,7 +56,7 @@ abstract class AbstractSecurityUser
         return $this->roles;
     }
 
-    /** @param \RJP\ApiBundle\Entity\SecurityUserRole $role */
+    /** @param \RJP\ApiBundle\Entity\AbstractSecurityUserRole $role */
     public function addRoles($role)
     {
         $role->setUser($this);

@@ -13,7 +13,7 @@ class ApiUser implements UserInterface, EquatableInterface
     private $roles;
     private $user;
 
-    public function __construct($username, $password, $salt, array $roles, \RJP\ApiBundle\Entity\SecurityUser $user)
+    public function __construct($username, $password, $salt, array $roles, $user)
     {
         $this->username = $username;
         $this->password = $password;
