@@ -189,6 +189,7 @@ class EventListener
             }
             catch (\Exception $e)
             {
+                $this->container->get('logger')->error($e->getMessage());
                 throw new HttpException(400, "bad_request");
             }
         }
