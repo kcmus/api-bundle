@@ -111,7 +111,7 @@ class EventListener
                 $contentType = $request->getContentType() == 'form' ? 'json' : $request->getContentType();
 
                 // If we weren't passed a content type we recognize we'll default to json
-                $contentType = !in_array($request->getContentType(), array('form','json','xml')) ? 'json' : $request->getContentType();
+                $contentType = !in_array($request->getContentType(), array('form','json','xml')) ? 'json' : $contentType;
 
                 // Deserialize into the input class
                 $deserialized = $serializer->deserialize(
