@@ -21,7 +21,7 @@
         "friendsofsymfony/rest-bundle": "1.4.*",
         "jms/serializer-bundle": "0.13.*@dev",
         "jms/di-extra-bundle": "1.4.*@dev",
-        "nelmio/api-doc-bundle": "2.11.*",
+        "nelmio/api-doc-bundle": "2.13.*",
         "willdurand/hateoas": "2.4.*@dev",
         "willdurand/hateoas-bundle": "1.0.*@dev"
     },
