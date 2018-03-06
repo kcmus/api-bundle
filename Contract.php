@@ -27,6 +27,11 @@ class Contract
      */
     public $_embedded;
 
+    public function __get($name)
+    {
+        return @$this->$name;
+    }
+
     public function __construct()
     {
 
