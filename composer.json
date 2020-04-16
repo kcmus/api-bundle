@@ -17,7 +17,7 @@
         "symfony/twig-bundle": "~2.7",
         "symfony/form": "~2.7",
         "symfony/security-bundle": "~2.7",
-        "friendsofsymfony/rest-bundle": "1.5.*",
+        "friendsofsymfony/rest-bundle": "~1.8.*",
         "jms/serializer-bundle": "~2.4.4",
         "jms/serializer": "^1.14",
         "jms/di-extra-bundle": "1.4.*@dev",
