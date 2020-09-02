@@ -23,7 +23,8 @@
         "jms/di-extra-bundle": "1.4.*@dev",
         "nelmio/api-doc-bundle": "2.13.*",
         "willdurand/hateoas": "^2.12.0",
-        "willdurand/hateoas-bundle": "~1.4.0"
+        "willdurand/hateoas-bundle": "~1.4.0",
+        "ext-json": "*"
     },
     "require-dev": {
 
